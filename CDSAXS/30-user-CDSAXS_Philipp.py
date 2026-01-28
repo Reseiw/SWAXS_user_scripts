@@ -997,3 +997,21 @@ def xyscan_wieser(t=1):
                     print(f"\n\t=== Sample: {sample_name} ===\n")
                     yield from bp.count([pil1M], num=1)
 
+def scan_pushpin(xmin, xmax, xinc, zmin, zmax, zinc, prsmin, prsmax, prsnumpoints):
+    """
+    Rotation center alignment
+    General Procedure:
+    - Scan over  piezo.x, piezo.z and PRS stage
+    - Save OAV and top down images current
+    
+    Motors:
+    - piezo.x
+    - piezo.z
+    - prs
+    """
+    import numpy as np  
+    xpos = np.arange(xmin,xmax+xinc,xinc) 
+    zpos = np.arange(zmin,zmax+zinc,zinc)
+    prspos = np.linspace(prsmin,prsmax,prsnumpoints)
+    RE(bp.list_scan([OAV_writing, piezo, prs],piezo.x,xpos,piezo.z,zpos, prs,prspos))
+    
